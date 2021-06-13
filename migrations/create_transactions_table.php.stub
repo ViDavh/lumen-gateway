@@ -52,7 +52,7 @@ class CreatePaymentTransactionsTable extends Migration
              $table->unsignedInteger('user_id');
              $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip', 20)->nullable();
-            $table->timestamp('payment_date')->nullable();
+            $table->timestamp('date')->nullable();
             $table->nullableTimestamps();
             $table->softDeletes();
         });

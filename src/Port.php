@@ -324,7 +324,7 @@ abstract class Port implements PortInterface
             'status' => Constants::TRANSACTION_SUCCEED,
             'tracking_code' => $this->trackingCode,
             'card_number' => $this->cardNumber,
-            'payment_date' => Carbon::now(),
+            'date' => Carbon::now(), //payment_date
             'updated_at' => Carbon::now(),
         ];
 
