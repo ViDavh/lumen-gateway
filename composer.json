@@ -1,0 +1,38 @@
+{
+  "name": "vidavh/lumen-gateway",
+  "homepage": "https://github.com/ViDavh/Lumen-gateway",
+  "description": "Lumen package for connecting to gateways",
+  "keywords": [
+    "lumen",
+    "iran",
+    "gateway",
+    "port",
+    "bank",
+    "zarinpal",
+    "poolport",
+    "larabook"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vida Vahdat",
+      "email": "vidavahdat98@gmail.com"
+    }
+  ],
+  "require": {
+    "nesbot/carbon": "*",
+    "paypal/rest-api-sdk-php": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vidavh\\Gateway\\": "src/",
+      "Vidavh\\Gateway\\Tests\\": "tests/"
+    }
+  },
+  "minimum-stability": "dev",
+  "require": {
+    "ext-soap": "*",
+    "nesbot/carbon": "*",
+    "paypal/rest-api-sdk-php": "*"
+  }
+}
