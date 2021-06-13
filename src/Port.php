@@ -13,6 +13,11 @@ use SoapFault;
 abstract class Port implements PortInterface
 {
     /**
+     * @var null
+     */
+    protected $uid = null;
+
+    /**
      * Transaction id
      *
      * @var null|int
@@ -82,6 +87,13 @@ abstract class Port implements PortInterface
      * @var string
      */
     protected $trackingCode;
+
+    /**
+     * User Id
+     *
+     * @var int
+     */
+    protected $userId;
 
     /**
      * Initialize of class
@@ -216,7 +228,33 @@ abstract class Port implements PortInterface
         return $this->amount;
     }
 
-    /** @noinspection PhpDocRedundantThrowsInspection */
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @param int $userId
+     */
+    public function setUserId(int $userId)
+    {
+        $this->userId = $userId;
+        return $this;
+    }
+
+    /**
+     * Get uid
+     *
+     * @return int|null
+     */
+    function uid()
+    {
+        return $this->uid;
+    }
+
     /**
      * Return result of payment
      * If result is done, return true, otherwise throws an related exception
@@ -234,7 +272,8 @@ abstract class Port implements PortInterface
     {
         $this->transaction = $transaction;
         $this->transactionId = $transaction->id;
-        $this->amount = intval($transaction->price);
+        $this->uid = $transaction->uid;
+        $this->amount = intval($transaction->creditor);
         $this->refId = $transaction->ref_id;
     }
 
@@ -256,19 +295,19 @@ abstract class Port implements PortInterface
      */
     protected function newTransaction()
     {
-        $uid = $this->getTimeId();
+        $this->uid = $this->getTimeId();
 
-        $this->transactionId = $this->getTable()->insert([
-            'id' => $uid,
+        $this->transactionId = $this->getTable()->insertGetId([
+            'uid' => $this->uid ,
             'port' => $this->getPortName(),
-            'price' => $this->amount,
+            'creditor' => $this->amount,
+            'user_id' => $this->getUserId(),
             'status' => Constants::TRANSACTION_INIT,
             'ip' => Request::ip(),
             'description' => $this->description,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
-        ]) ? $uid : null;
-
+        ]);
         return $this->transactionId;
     }
 

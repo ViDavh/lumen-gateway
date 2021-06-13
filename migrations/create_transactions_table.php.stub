@@ -23,7 +23,8 @@ class CreatePaymentTransactionsTable extends Migration
     {
         Schema::create($this->getTable(), function (Blueprint $table) {
             $table->engine = "innoDB";
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->bigIncrements('uid');
             $table->text('description')->nullable();
             $table->enum('port', [
                 Constants::MELLAT,
@@ -38,7 +39,8 @@ class CreatePaymentTransactionsTable extends Migration
                 Constants::PAYPAL,
                 Constants::PAYIR
             ]);
-            $table->decimal('price', 15, 2);
+            $table->bigInteger('creditor')->default(0);
+            $table->bigInteger('debtor')->default(0);
             $table->string('ref_id', 100)->nullable();
             $table->string('tracking_code', 50)->nullable();
             $table->string('card_number', 50)->nullable();
@@ -47,6 +49,8 @@ class CreatePaymentTransactionsTable extends Migration
                 Constants::TRANSACTION_SUCCEED,
                 Constants::TRANSACTION_FAILED,
             ])->default(Constants::TRANSACTION_INIT);
+             $table->unsignedInteger('user_id');
+             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('ip', 20)->nullable();
             $table->timestamp('payment_date')->nullable();
             $table->nullableTimestamps();
