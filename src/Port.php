@@ -283,7 +283,7 @@ abstract class Port implements PortInterface
             return substr(str_pad(str_replace('.', '', microtime(true)), 12, 0), 0, 12);
         };
         $uid = $genuid();
-        while ($this->getTable()->whereId($uid)->first())
+        while ($this->getTable()->whereUid($uid)->first())
             $uid = $genuid();
         return $uid;
     }
